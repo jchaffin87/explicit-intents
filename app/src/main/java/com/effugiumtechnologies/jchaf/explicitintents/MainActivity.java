@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         tvMessage = (TextView) findViewById(R.id.tvMessage);
         btnActivity2 = (Button) findViewById(R.id.btnActivtity2);
         btnActivity3 = (Button) findViewById(R.id.btnActivity3);
+        final int ACTIVITY3 = 3;
 
         btnActivity2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,8 +44,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,
                         com.effugiumtechnologies.jchaf.explicitintents.Activity3.class);
-                startActivityForResult();
+                startActivityForResult(intent, ACTIVITY3);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        String surname;
+        String name;
+
+        if(requestCode == ACTIVITY3 && resultCode == RESULT_OK){
+            surname = data.getStringExtra("surname");
+            name = etName.getText().toString().trim();
+
+            tvMessage.setText(name + " " + surname);
+        } else if(resultCode ==  RESULT_CANCELED) {
+            Toast.makeText(this, "The user did not enter anything!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
